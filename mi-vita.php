@@ -8,13 +8,16 @@ Author: boctulus@gmail.com <Pablo>
 
 use mi_vita\libs\Debug;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require __DIR__ . '/libs/Debug.php';
 require __DIR__ . '/config.php';
-
 
 if (!function_exists('dd')){
 	function dd($val, $msg = null, $pre_cond = null){
@@ -81,6 +84,11 @@ function boctulus_add_jscript_checkout() {
 	</style>
 
 	<script type="text/javascript">
+		function removeShowCouponFeature(){
+			//var element = document.querySelectorAll(".showcoupon")[0];
+			//element.classList.remove("showcoupon");
+		}
+
 		function show_validation_error(){
 			document.querySelector('#user_rut').classList.add('error');
 		}
@@ -96,6 +104,7 @@ function boctulus_add_jscript_checkout() {
 
 			setTimeout(() => {
 				form1.style.removeProperty("display");
+				removeShowCouponFeature();
 			}, 500);
 
 			var div = document.createElement('div');
@@ -107,17 +116,20 @@ function boctulus_add_jscript_checkout() {
 				</h3>
 			</p></br/>
 
-			<p class="form-row form-row-first my-field-class form-row-wide validate-required" id="user_rut_field" data-priority="" style="margin-top: -15px">
-				<input type="text" class="input-text" id="u_rut" placeholder="ingrese su RUT" value="">
-			</p>
+			<div style="margin-top: -15px;">
+				<p class="form-row form-row-first my-field-class form-row-wide validate-required" id="user_rut_field" data-priority="" style="">
+					<input type="text" class="input-text" id="u_rut" placeholder="ingrese su RUT" value="">
+				</p>
 
-			<p class="form-row form-row-last">
-			<button type="submit" class="button" name="validate_rut">Validar RUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-			</p>
+				<p class="form-row form-row-last">
+				<button type="submit" class="button" id="validate_rut">Validar RUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+				</p>
+			</div>
+			<p/>
 
 			<div class="clear"></div>
 			
-			<div class="woocommerce-NoticeGroup" style="margin-top: 5px; margin-left:-12px;">
+			<div class="woocommerce-NoticeGroup" style="margin-top: 10px; margin-left:-12px;">
 				<ul class="woocommerce-error" role="alert">
 					<li><strong>RUT</strong> no es de un miembro.</li>
 				</ul>
@@ -127,6 +139,13 @@ function boctulus_add_jscript_checkout() {
 			<div class="clear" style="margin-bottom: -20px;"></div>`;
 
 			form1.insertBefore(div, pform);
+
+			document.addEventListener("click", function(){
+				let btn = document.getElementById("validate_rut");
+				let rut = document.getElementById("u_rut").value;
+
+				validate(rut);
+			});
 		}
 
 		/*

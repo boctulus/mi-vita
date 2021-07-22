@@ -3,8 +3,7 @@
 namespace mi_vita\libs;
 
 class Url 
-{
-    
+{    
     /*
         @author     Pablo Bozzolo   boctulus@gmail.com
     */
