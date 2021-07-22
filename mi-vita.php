@@ -178,6 +178,7 @@ function boctulus_add_jscript_checkout() {
 
 			if (message === ""){
 				throw "Mensaje de notificación no puede quedar vacio";
+				return;
 			}
 
 			let list = document.getElementById('mivita_desc_notice_list');
@@ -284,8 +285,14 @@ function boctulus_add_jscript_checkout() {
 					setMiVitaNotice('Servicio no disponible', 'error');				
 				} else {
 					let is_member = res.data.is_member;
-					console.log(is_member);					
-					setMiVitaNotice('Bienvenido! Membresía verificada', 'info');
+					//console.log(is_member);	
+					
+					if (is_member){
+						set_rut(rut);
+						setMiVitaNotice('Bienvenido! Membresía verificada', 'info');
+					} else {
+						setMiVitaNotice('Ud. parece no ser miembro.', 'error');
+					}
 				}
 			})
 			.catch(err => {
