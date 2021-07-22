@@ -1,0 +1,207 @@
+WC_Coupon::__set_state(array(
+   'data' => 
+  array (
+    'code' => 'desc50f',
+    'amount' => '50',
+    'date_created' => 
+    WC_DateTime::__set_state(array(
+       'utc_offset' => 0,
+       'date' => '2021-07-20 11:04:20.000000',
+       'timezone_type' => 3,
+       'timezone' => 'America/Argentina/Buenos_Aires',
+    )),
+    'date_modified' => 
+    WC_DateTime::__set_state(array(
+       'utc_offset' => 0,
+       'date' => '2021-07-20 11:09:06.000000',
+       'timezone_type' => 3,
+       'timezone' => 'America/Argentina/Buenos_Aires',
+    )),
+    'date_expires' => NULL,
+    'discount_type' => 'fixed_cart',
+    'description' => 'Descuento de cantidad fija',
+    'usage_count' => 0,
+    'individual_use' => true,
+    'product_ids' => 
+    array (
+    ),
+    'excluded_product_ids' => 
+    array (
+    ),
+    'usage_limit' => 0,
+    'usage_limit_per_user' => 0,
+    'limit_usage_to_x_items' => NULL,
+    'free_shipping' => false,
+    'product_categories' => 
+    array (
+    ),
+    'excluded_product_categories' => 
+    array (
+    ),
+    'exclude_sale_items' => false,
+    'minimum_amount' => '',
+    'maximum_amount' => '',
+    'email_restrictions' => 
+    array (
+    ),
+    'used_by' => 
+    array (
+    ),
+    'virtual' => false,
+  ),
+   'cache_group' => 'coupons',
+   'id' => 665,
+   'changes' => 
+  array (
+  ),
+   'object_read' => true,
+   'object_type' => 'data',
+   'extra_data' => 
+  array (
+  ),
+   'default_data' => 
+  array (
+    'code' => '',
+    'amount' => 0,
+    'date_created' => NULL,
+    'date_modified' => NULL,
+    'date_expires' => NULL,
+    'discount_type' => 'fixed_cart',
+    'description' => '',
+    'usage_count' => 0,
+    'individual_use' => false,
+    'product_ids' => 
+    array (
+    ),
+    'excluded_product_ids' => 
+    array (
+    ),
+    'usage_limit' => 0,
+    'usage_limit_per_user' => 0,
+    'limit_usage_to_x_items' => NULL,
+    'free_shipping' => false,
+    'product_categories' => 
+    array (
+    ),
+    'excluded_product_categories' => 
+    array (
+    ),
+    'exclude_sale_items' => false,
+    'minimum_amount' => '',
+    'maximum_amount' => '',
+    'email_restrictions' => 
+    array (
+    ),
+    'used_by' => 
+    array (
+    ),
+    'virtual' => false,
+  ),
+   'data_store' => 
+  WC_Data_Store::__set_state(array(
+     'instance' => 
+    WC_Coupon_Data_Store_CPT::__set_state(array(
+       'meta_type' => 'post',
+       'internal_meta_keys' => 
+      array (
+        0 => '_code',
+        1 => '_amount',
+        2 => '_date_created',
+        3 => '_date_modified',
+        4 => '_date_expires',
+        5 => '_discount_type',
+        6 => '_description',
+        7 => '_usage_count',
+        8 => '_individual_use',
+        9 => '_product_ids',
+        10 => '_excluded_product_ids',
+        11 => '_usage_limit',
+        12 => '_usage_limit_per_user',
+        13 => '_limit_usage_to_x_items',
+        14 => '_free_shipping',
+        15 => '_product_categories',
+        16 => '_excluded_product_categories',
+        17 => '_exclude_sale_items',
+        18 => '_minimum_amount',
+        19 => '_maximum_amount',
+        20 => '_email_restrictions',
+        21 => '_used_by',
+        22 => '_virtual',
+        23 => 'discount_type',
+        24 => 'coupon_amount',
+        25 => 'expiry_date',
+        26 => 'date_expires',
+        27 => 'usage_count',
+        28 => 'individual_use',
+        29 => 'product_ids',
+        30 => 'exclude_product_ids',
+        31 => 'usage_limit',
+        32 => 'usage_limit_per_user',
+        33 => 'limit_usage_to_x_items',
+        34 => 'free_shipping',
+        35 => 'product_categories',
+        36 => 'exclude_product_categories',
+        37 => 'exclude_sale_items',
+        38 => 'minimum_amount',
+        39 => 'maximum_amount',
+        40 => 'customer_email',
+        41 => '_used_by',
+        42 => '_edit_lock',
+        43 => '_edit_last',
+      ),
+       'updated_props' => 
+      array (
+      ),
+       'object_id_field_for_meta' => '',
+       'must_exist_meta_keys' => 
+      array (
+      ),
+    )),
+     'stores' => 
+    array (
+      'coupon' => 'WC_Coupon_Data_Store_CPT',
+      'customer' => 'WC_Customer_Data_Store',
+      'customer-download' => 'WC_Customer_Download_Data_Store',
+      'customer-download-log' => 'WC_Customer_Download_Log_Data_Store',
+      'customer-session' => 'WC_Customer_Data_Store_Session',
+      'order' => 'WC_Order_Data_Store_CPT',
+      'order-refund' => 'WC_Order_Refund_Data_Store_CPT',
+      'order-item' => 'WC_Order_Item_Data_Store',
+      'order-item-coupon' => 'WC_Order_Item_Coupon_Data_Store',
+      'order-item-fee' => 'WC_Order_Item_Fee_Data_Store',
+      'order-item-product' => 'WC_Order_Item_Product_Data_Store',
+      'order-item-shipping' => 'WC_Order_Item_Shipping_Data_Store',
+      'order-item-tax' => 'WC_Order_Item_Tax_Data_Store',
+      'payment-token' => 'WC_Payment_Token_Data_Store',
+      'product' => 'WC_Product_Data_Store_CPT',
+      'product-grouped' => 'WC_Product_Grouped_Data_Store_CPT',
+      'product-variable' => 'WC_Product_Variable_Data_Store_CPT',
+      'product-variation' => 'WC_Product_Variation_Data_Store_CPT',
+      'shipping-zone' => 'WC_Shipping_Zone_Data_Store',
+      'webhook' => 'WC_Webhook_Data_Store',
+      'report-revenue-stats' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Orders\\Stats\\DataStore',
+      'report-orders' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Orders\\DataStore',
+      'report-orders-stats' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Orders\\Stats\\DataStore',
+      'report-products' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Products\\DataStore',
+      'report-variations' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Variations\\DataStore',
+      'report-products-stats' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Products\\Stats\\DataStore',
+      'report-categories' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Categories\\DataStore',
+      'report-taxes' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Taxes\\DataStore',
+      'report-taxes-stats' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Taxes\\Stats\\DataStore',
+      'report-coupons' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Coupons\\DataStore',
+      'report-coupons-stats' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Coupons\\Stats\\DataStore',
+      'report-downloads' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Downloads\\DataStore',
+      'report-downloads-stats' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Downloads\\Stats\\DataStore',
+      'admin-note' => 'Automattic\\WooCommerce\\Admin\\Notes\\DataStore',
+      'report-customers' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Customers\\DataStore',
+      'report-customers-stats' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Customers\\Stats\\DataStore',
+      'report-stock-stats' => 'Automattic\\WooCommerce\\Admin\\API\\Reports\\Stock\\Stats\\DataStore',
+    ),
+     'current_class_name' => 'WC_Coupon_Data_Store_CPT',
+     'object_type' => 'coupon',
+  )),
+   'meta_data' => 
+  array (
+  ),
+   'sort' => 3,
+))
