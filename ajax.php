@@ -21,9 +21,8 @@ if (!function_exists('dd')){
 	}
 }
 
-function validate_as_member(){
-	// leer SECRET y APIKET de config.php
-
+function validate_as_member()
+{
     $rut  = $_GET['rut'] ?? null;
 
     if (empty($rut)){

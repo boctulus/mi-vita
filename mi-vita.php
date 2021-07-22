@@ -81,21 +81,25 @@ function boctulus_add_jscript_checkout() {
 		.error {
 			border: 1px solid  #a00 !important;
 		}
+
+		.mivita_box {
+			border: 1px solid #d3ced2;
+			padding: 20px;
+			margin: 2em 0;
+			text-align: left;
+			border-radius: 5px;
+		}
+
+		.show{
+			display:block;
+		}
+
+		.hide{
+			display:none;
+		}
 	</style>
 
 	<script type="text/javascript">	
-
-		function removeTogglingCouponFeature(){
-			var elem = document.querySelectorAll(".showcoupon")[0];
-			//elem.classList.remove('showcoupon');
-			elem.classList.add('show');
-
-			elem.addEventListener('click', (e) => {
-				e.preventDefault();
-				return;
-			});
-		}
-
 		function show_validation_error(){
 			document.querySelector('#user_rut').classList.add('error');
 		}
@@ -105,52 +109,118 @@ function boctulus_add_jscript_checkout() {
 		}
 
 		function modify_checkout_coupon(){
-			form1 = document.querySelectorAll('form.checkout_coupon.woocommerce-form-coupon')[0];
-			form2 = document.querySelectorAll('form.checkout.woocommerce-checkout')[0];
-			pform = document.querySelectorAll('form.checkout_coupon.woocommerce-form-coupon > p')[0];
+			woocommerce = document.querySelectorAll('div.woocommerce')[0];
+			toggle = document.querySelectorAll('div.woocommerce-form-coupon-toggle')[0];
+			form1  = document.querySelectorAll('form.checkout_coupon.woocommerce-form-coupon')[0];
+			form2  = document.querySelectorAll('form.checkout.woocommerce-checkout')[0];
+			pform  = document.querySelectorAll('form.checkout_coupon.woocommerce-form-coupon > p')[0];
 
 			setTimeout(() => {
 				form1.style.removeProperty("display");
-				//removeTogglingCouponFeature();
 			}, 500);
 
-			var div = document.createElement('div');
-			div.setAttribute("id", "new_div");
-			div.innerHTML = `
-			<p>
-				<h3>
-					Descuentos con Mi Vita
-				</h3>
-			</p></br/>
+			var form = document.createElement('form');
+			form.setAttribute("id", "mivita_desc");
+			form.classList.add("mivita_box");
+			form.innerHTML = `
+			<h3>
+				Descuentos con Mi Vita
+			</h3>
 
-			<div style="margin-top: -15px;">
-				<p class="form-row form-row-first my-field-class form-row-wide validate-required" id="user_rut_field" data-priority="" style="">
-					<input type="text" class="input-text" id="u_rut" placeholder="ingrese su RUT" value="">
-				</p>
+			</br/>
 
-				<p class="form-row form-row-last">
-				<button type="submit" class="button" id="validate_rut">Validar RUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-				</p>
-			</div>
+			<div style="margin-top: -15px">
+			<p class="form-row form-row-first my-field-class form-row-wide validate-required" id="user_rut_field" data-priority="" style="">
+				<input type="text" class="input-text" id="u_rut" placeholder="ingrese su RUT" value="">
+			</p>
+
+			<p class="form-row form-row-last">
+				<button type="submit" class="button" id="validate_rut">Validar RUT&nbsp;&nbsp;&nbsp;&nbsp;</button>
 			<p/>
-
+			</div>
 			<div class="clear"></div>
-			
-			<div class="woocommerce-NoticeGroup" style="margin-top: 10px; margin-left:-12px;">
-				<ul class="woocommerce-error" role="alert">
-					<li><strong>RUT</strong> no es de un miembro.</li>
-				</ul>
-			</div>
-			<p/>
+			`;
 
-			<div class="clear" style="margin-bottom: -20px;"></div>`;
+			/*
+				Notices !
+			*/
 
-			form1.insertBefore(div, pform);
+			var div = document.createElement('div');
+			div.setAttribute("id", "mivita_desc_notices");
+			div.classList.add("woocommerce-NoticeGroup");
+			div.innerHTML = `
+			<ul class="hidden" role="alert" id="mivita_desc_notice_list">
+				
+			</ul>
+			<p/>`;
+	
+			woocommerce.insertBefore(form, toggle);
+			woocommerce.insertBefore(div, toggle);
 
+			document.getElementById("mivita_desc").addEventListener('submit', function(event){
+				let rut = document.getElementById("u_rut").value;
+				validate(rut);
+				event.preventDefault();
+			});
+
+			/*
 			document.getElementById("validate_rut").addEventListener("click", function(){
 				let rut = document.getElementById("u_rut").value;
 				validate(rut);
 			});
+			*/
+		}
+
+		function setMiVitaNotice(message, type){
+			if (type != 'error' && type != 'info'){
+				throw "Tipo de notificación inválida para " + type;
+			}
+
+			if (message === ""){
+				throw "Mensaje de notificación no puede quedar vacio";
+			}
+
+			let list = document.getElementById('mivita_desc_notice_list');
+
+			list.innerHTML = message;
+
+			if (type == 'error'){
+				list.classList.remove('woocommerce-info');
+			} else {
+				list.classList.remove('woocommerce-error');
+			}
+			
+			list.classList.add('woocommerce-'+type);
+			list.classList.remove('hide');
+			list.classList.add('show');
+		}
+
+		function hideMiVitaNotice(){
+			let list = document.getElementById('mivita_desc_notice_list');
+			list.classList.remove('show');
+			list.classList.add('hide');
+		}
+
+		/*
+			https://gist.github.com/donpandix/f1d638c3a1a908be02d5
+		*/
+		const rut_validator = {
+			// Valida el rut con su cadena completa "XXXXXXXX-X"
+			valida : function (rutCompleto) {
+				if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+					return false;
+				var tmp 	= rutCompleto.split('-');
+				var digv	= tmp[1]; 
+				var rut 	= tmp[0];
+				if ( digv == 'K' ) digv = 'k' ;
+				return (rut_validator.dv(rut) == digv );
+			},
+			dv : function(T){
+				var M=0,S=1;
+				for(;T;T=Math.floor(T/10))
+					S=(S+T%10*(9-M++%6))%11;
+				return S?S-1:'k';
+			}
 		}
 
 		/*
@@ -181,8 +251,19 @@ function boctulus_add_jscript_checkout() {
 
 			const endpoint = '<?php echo $rel_path ?>/ajax.php';
 
-			let url = endpoint + '?rut=' + rut;
-			
+			let url = endpoint + '?rut=' + rut;	
+
+			if (rut === ""){
+				hideMiVitaNotice();
+				return;
+			}
+
+			if (!rut_validator.valida(rut)){
+				console.log("RUT inválido");
+				setMiVitaNotice('<strong>RUT</strong> no es válido.', 'error');
+				return;
+			}
+
 			/*
 				{
 					"status":200,
@@ -199,16 +280,18 @@ function boctulus_add_jscript_checkout() {
 			})
 			.then(res => {
 				if (res.status != 200){
-					console.log('Error code: ' +res.status);
+					console.log('Error code: ' +res.status);					
+					setMiVitaNotice('Servicio no disponible', 'error');				
 				} else {
 					let is_member = res.data.is_member;
-					console.log(is_member);
+					console.log(is_member);					
+					setMiVitaNotice('Bienvenido! Membresía verificada', 'info');
 				}
 			})
 			.catch(err => {
 				// handle the error
-
 				console.log(err);
+				setMiVitaNotice('Error desconocido', 'error');
 			});
 
 		}
