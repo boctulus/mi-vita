@@ -83,10 +83,17 @@ function boctulus_add_jscript_checkout() {
 		}
 	</style>
 
-	<script type="text/javascript">
-		function removeShowCouponFeature(){
-			//var element = document.querySelectorAll(".showcoupon")[0];
-			//element.classList.remove("showcoupon");
+	<script type="text/javascript">	
+
+		function removeTogglingCouponFeature(){
+			var elem = document.querySelectorAll(".showcoupon")[0];
+			//elem.classList.remove('showcoupon');
+			elem.classList.add('show');
+
+			elem.addEventListener('click', (e) => {
+				e.preventDefault();
+				return;
+			});
 		}
 
 		function show_validation_error(){
@@ -104,7 +111,7 @@ function boctulus_add_jscript_checkout() {
 
 			setTimeout(() => {
 				form1.style.removeProperty("display");
-				removeShowCouponFeature();
+				//removeTogglingCouponFeature();
 			}, 500);
 
 			var div = document.createElement('div');
@@ -140,10 +147,8 @@ function boctulus_add_jscript_checkout() {
 
 			form1.insertBefore(div, pform);
 
-			document.addEventListener("click", function(){
-				let btn = document.getElementById("validate_rut");
+			document.getElementById("validate_rut").addEventListener("click", function(){
 				let rut = document.getElementById("u_rut").value;
-
 				validate(rut);
 			});
 		}
@@ -153,6 +158,12 @@ function boctulus_add_jscript_checkout() {
 		*/
 		function set_rut(rut){
 			document.getElementById("user_rut").value = rut;
+		}
+
+		function parseJSON(response) {
+			return response.text().then(function(text) {
+				return text ? JSON.parse(text) : {}
+			})
 		}
 
 		/*
@@ -184,7 +195,7 @@ function boctulus_add_jscript_checkout() {
 
 			fetch(url)
 			.then(function(res) {
-				return res.json();
+				return parseJSON(res);
 			})
 			.then(res => {
 				if (res.status != 200){
