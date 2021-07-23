@@ -115,10 +115,6 @@ function boctulus_add_jscript_checkout() {
 			form2  = document.querySelectorAll('form.checkout.woocommerce-checkout')[0];
 			pform  = document.querySelectorAll('form.checkout_coupon.woocommerce-form-coupon > p')[0];
 
-			setTimeout(() => {
-				form1.style.removeProperty("display");
-			}, 500);
-
 			var form = document.createElement('form');
 			form.setAttribute("id", "mivita_desc");
 			form.classList.add("mivita_box");
@@ -162,13 +158,6 @@ function boctulus_add_jscript_checkout() {
 				validate(rut);
 				event.preventDefault();
 			});
-
-			/*
-			document.getElementById("validate_rut").addEventListener("click", function(){
-				let rut = document.getElementById("u_rut").value;
-				validate(rut);
-			});
-			*/
 		}
 
 		function setMiVitaNotice(message, type){
@@ -290,6 +279,9 @@ function boctulus_add_jscript_checkout() {
 					if (is_member){
 						set_rut(rut);
 						setMiVitaNotice('<?php echo MEMBERSHIP_VERIFIED ?>', 'info');
+						setTimeout(() => {
+							form1.style.removeProperty("display");
+						}, 500);						
 					} else {
 						setMiVitaNotice('<?php echo MEMBERSHIP_NOT_VERIFIED ?>', 'error');
 					}
