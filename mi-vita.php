@@ -18,6 +18,8 @@ error_reporting(E_ALL);
 
 require __DIR__ . '/libs/Debug.php';
 require __DIR__ . '/config.php';
+require __DIR__ . '/ajax.php';
+
 
 if (!function_exists('dd')){
 	function dd($val, $msg = null, $pre_cond = null){
@@ -32,6 +34,13 @@ if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', 
 	return;
 }
 
+function get_rel_path(){
+	$ini = strpos(__DIR__, '/wp-content/');
+	$rel_path = substr(__DIR__, $ini);
+
+	return $rel_path;
+}			
+
 add_action('init', 'start_session', 1);
 
 function start_session() {
@@ -39,36 +48,6 @@ function start_session() {
 		session_start();
 	}
 }
-
-/*
-	REST
-
-*/
-function get_coupons( $data ) {
-	global $wpdb;
-  
-	$prefix = $wpdb->prefix;
-
-	$cupones = $wpdb->get_results("SELECT post_name, meta_key, meta_value
-	FROM `{$prefix}posts` AS pc
-	INNER JOIN `{$prefix}postmeta` AS pmc ON  pc.`ID` = pmc.`post_id`
-	WHERE pc.post_type = 'shop_coupon'
-	AND `meta_key`= 'product_ids'");
-
-	return $cupones;
-}
-  
-
-add_action( 'rest_api_init', function () {
-	/*
-		/wp-json/mi-vita/v1/coupons
-	*/
-	register_rest_route( 'mi-vita/v1', '/coupons', array(
-		'methods' => 'GET',
-		'callback' => 'get_coupons',
-	) );
-} );
-
 
 
 /*
@@ -227,6 +206,7 @@ function boctulus_add_jscript_checkout() {
 				let rut = document.getElementById("u_rut").value;
 				validate(rut);
 				event.preventDefault();
+				return;
 			});
 		}
 
@@ -297,21 +277,14 @@ function boctulus_add_jscript_checkout() {
 		}
 
 		/*
-			Consume /wp-content/plugins/mi-vita/ajax.php?rut=xxxxxxxxxx
-
-			Valida y copia el valor del RUT a al campo RUT <<hidden>>
+			Consume API y valida y copia el valor del RUT a al campo RUT <<hidden>>
 
 			u_rut -> user_rut
 		*/
 		function validate(rut){
-			<?php
-				$ini = strpos(__DIR__, '/wp-content/');
-				$rel_path = substr(__DIR__, $ini);
-			?>
+			const endpoint = '/wp-json/mi-vita/v1/mivita_members';
 
-			const endpoint = '<?php echo $rel_path ?>/ajax.php?action=validate_as_member';
-
-			let url = endpoint + '&rut=' + rut;	
+			let url = endpoint + '?rut=' + rut;	
 
 			if (rut === ""){
 				hideMiVitaNotice();
@@ -319,7 +292,9 @@ function boctulus_add_jscript_checkout() {
 			}
 
 			if (!rut_validator.valida(rut)){
-				$_SESSION['mivita_member'] = false;
+				<?php 
+					$_SESSION['mivita_member'] = false; 
+				?>
 				setMiVitaNotice('<?php echo RUT_IS_INVALID ?>', 'error');
 				return;
 			}

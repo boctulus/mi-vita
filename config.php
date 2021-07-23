@@ -53,7 +53,7 @@ define('OPEN_COUPON_BOX_WHEN_IS_VALID', false);
 	Aplicar automáticamente cupones si están restringidos a ciertos productos
 	y éstos se hayan en el carrito
 */
-define('AUTOCOUPONS', false);
+define('AUTOCOUPONS', true);
 
 
 /*

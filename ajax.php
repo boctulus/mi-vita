@@ -1,24 +1,27 @@
 <?php
 
-namespace mi_vita;
-
 use mi_vita\libs\Url;
 use mi_vita\libs\Debug;
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-
-require __DIR__ . '/config.php';
-require __DIR__ . '/libs/Debug.php';
 require __DIR__ . '/libs/Url.php';
 
+/*
+	REST
 
-if (!function_exists('dd')){
-	function dd($val, $msg = null, $pre_cond = null){
-		Debug::dd($val, $msg, $pre_cond);
-	}
+*/
+
+function get_coupons( $data ) {
+	global $wpdb;
+  
+	$prefix = $wpdb->prefix;
+
+	$cupones = $wpdb->get_results("SELECT post_name, meta_key, meta_value
+	FROM `{$prefix}posts` AS pc
+	INNER JOIN `{$prefix}postmeta` AS pmc ON  pc.`ID` = pmc.`post_id`
+	WHERE pc.post_type = 'shop_coupon'
+	AND `meta_key`= 'product_ids'");
+
+	return $cupones;
 }
 
 function validate_as_member()
@@ -76,4 +79,23 @@ function validate_as_member()
     ]);
 }
 
-validate_as_member();
+/*
+	/wp-json/mi-vita/v1/xxxxx
+*/
+add_action( 'rest_api_init', function () {
+    #	/wp-json/mi-vita/v1/mivita_members
+	register_rest_route( 'mi-vita/v1', '/mivita_members', array(
+		'methods' => 'GET',
+		'callback' => 'validate_as_member',
+	) );
+	
+	#	/wp-json/mi-vita/v1/coupons
+	register_rest_route( 'mi-vita/v1', '/coupons', array(
+		'methods' => 'GET',
+		'callback' => 'get_coupons',
+	) );
+} );
+
+
+
+
