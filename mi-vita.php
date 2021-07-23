@@ -132,9 +132,9 @@ function boctulus_add_jscript_checkout() {
 
 	<script type="text/javascript">	
 		function apply_coupon(code){
-			coupon_code = document.getElementById('coupon_code').value  =  code;
+			let coupon_code = document.getElementById('coupon_code').value  =  code;
 
-			apply_btn = document.querySelector('[name="apply_coupon"]');
+			let apply_btn = document.querySelector('[name="apply_coupon"]');
 			apply_btn.click();
 		}
 
@@ -155,8 +155,9 @@ function boctulus_add_jscript_checkout() {
 
 					for (var j=0; j<cart_items.length; j++){
 						if (product_id == cart_items[j]){
-							//console.log("Debo aplicar el cupón "+code);
-							apply_coupon(code);
+							setTimeout(() => {
+								apply_coupon(code);
+							}, j * 1000);
 						}
 					}
 
