@@ -41,6 +41,37 @@ function start_session() {
 }
 
 /*
+	REST
+
+*/
+function get_coupons( $data ) {
+	global $wpdb;
+  
+	$prefix = $wpdb->prefix;
+
+	$cupones = $wpdb->get_results("SELECT post_name, meta_key, meta_value
+	FROM `{$prefix}posts` AS pc
+	INNER JOIN `{$prefix}postmeta` AS pmc ON  pc.`ID` = pmc.`post_id`
+	WHERE pc.post_type = 'shop_coupon'
+	AND `meta_key`= 'product_ids'");
+
+	return $cupones;
+}
+  
+
+add_action( 'rest_api_init', function () {
+	/*
+		/wp-json/mi-vita/v1/coupons
+	*/
+	register_rest_route( 'mi-vita/v1', '/coupons', array(
+		'methods' => 'GET',
+		'callback' => 'get_coupons',
+	) );
+} );
+
+
+
+/*
 	La variable de session $_SESSION['mivita_member'] debe ser seteada
 	al validar el campo de RUT en el cajón de "cupones"
 
@@ -100,6 +131,44 @@ function boctulus_add_jscript_checkout() {
 	</style>
 
 	<script type="text/javascript">	
+		function apply_coupon(code){
+			coupon_code = document.getElementById('coupon_code').value  =  code;
+
+			apply_btn = document.querySelector('[name="apply_coupon"]');
+			apply_btn.click();
+		}
+
+		function autoapply_cupons(){
+			let url = '/wp-json/mi-vita/v1/coupons'; 
+
+			fetch(url)
+			.then(function(res) {
+				return parseJSON(res);
+			})
+			.then(res => {
+				let products = res;
+
+				for (var i=0; i<products.length; i++){
+					let code = products[i]['post_name'];
+					let product_id = products[i]['meta_value'];
+					//console.log(code, product_id);
+
+					for (var j=0; j<cart_items.length; j++){
+						if (product_id == cart_items[j]){
+							//console.log("Debo aplicar el cupón "+code);
+							apply_coupon(code);
+						}
+					}
+
+				}
+			})
+			.catch(err => {
+				// handle the error
+				console.log(err);
+				setMiVitaNotice('<?php echo UNKNOWN_ERROR ?>', 'error');
+			});
+		}
+
 		function show_validation_error(){
 			document.querySelector('#user_rut').classList.add('error');
 		}
@@ -239,9 +308,9 @@ function boctulus_add_jscript_checkout() {
 				$rel_path = substr(__DIR__, $ini);
 			?>
 
-			const endpoint = '<?php echo $rel_path ?>/ajax.php';
+			const endpoint = '<?php echo $rel_path ?>/ajax.php?action=validate_as_member';
 
-			let url = endpoint + '?rut=' + rut;	
+			let url = endpoint + '&rut=' + rut;	
 
 			if (rut === ""){
 				hideMiVitaNotice();
@@ -279,6 +348,9 @@ function boctulus_add_jscript_checkout() {
 					if (is_member){
 						set_rut(rut);
 						setMiVitaNotice('<?php echo MEMBERSHIP_VERIFIED ?>', 'info');
+
+						// Si hay auto-cupones
+						autoapply_cupons();
 
 						<?php
 							if (OPEN_COUPON_BOX_WHEN_IS_VALID){
@@ -333,12 +405,23 @@ function add_rut_field($checkout)
         'class'         => array('my-field-class form-row-wide'),
         'label'         => __('RUT'),
         'placeholder'   => __(INPUT_PLACEHOLDER),
-		'required'		=> true
+		'required'		=> INPUT_REQUIRED
         ), $checkout->get_value( 'user_rut' ));
 	}
 	
     echo '</div>';
 
+
+	$cart_items = [];
+	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+		$cart_items[] = $cart_item['product_id'];
+	}  
+
+	?>
+		<script>
+			var cart_items = <?php echo json_encode($cart_items) ?>;
+		</script>
+	<?php
 }
 
 #Next we need to validate the field when the checkout form is posted. For this example the field is required and not optional:
@@ -350,7 +433,7 @@ add_action('woocommerce_checkout_process', 'rut_process');
 
 function rut_process() {
     // Check if set, if its not set add an error.
-    if ( ! $_POST['user_rut'] )
+    if (INPUT_REQUIRED && !$_POST['user_rut'] )
         wc_add_notice( __(RUT_IS_REQUIRED), 'error' );
 }
 
@@ -366,3 +449,4 @@ function rut_update_order_meta( $order_id ) {
         update_post_meta( $order_id, 'RUT', sanitize_text_field( $_POST['user_rut'] ) );
     }
 }
+

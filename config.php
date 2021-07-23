@@ -26,6 +26,7 @@ define('SECTION_HEADER', 'Descuentos con Mi Vita');
 	Texto del Input
 */
 define('INPUT_VISIBILITY', false);
+define('INPUT_REQUIRED', false);
 define('INPUT_PLACEHOLDER', 'Ingrese su RUT ej: xxxxxxxx-x');
 
 /*
@@ -47,3 +48,4 @@ define('RUT_IS_INVALID', '<strong>RUT</strong> no es válido.');
 	Cuponera
 */
 define('OPEN_COUPON_BOX_WHEN_IS_VALID', false);
+
