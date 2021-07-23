@@ -81,7 +81,7 @@ function filter_woocommerce_coupon_is_valid($is_valid, $coupon) {
 
 	$is_member = $_SESSION['mivita_member'] ?? false;
 
-	if (substr($name, 0, 3) == 'mvt'){
+	if (preg_match(REG_EX, $name)){
 		if (!$is_member){
 			$is_valid = false;
 		}
@@ -319,7 +319,7 @@ function boctulus_add_jscript_checkout() {
 			}
 
 			if (!rut_validator.valida(rut)){
-				//console.log("RUT inválido");
+				$_SESSION['mivita_member'] = false;
 				setMiVitaNotice('<?php echo RUT_IS_INVALID ?>', 'error');
 				return;
 			}
@@ -351,7 +351,11 @@ function boctulus_add_jscript_checkout() {
 						setMiVitaNotice('<?php echo MEMBERSHIP_VERIFIED ?>', 'info');
 
 						// Si hay auto-cupones
-						autoapply_cupons();
+						<?php
+						if (AUTOCOUPONS){
+							echo 'autoapply_cupons();';
+						}	
+						?>					
 
 						<?php
 							if (OPEN_COUPON_BOX_WHEN_IS_VALID){

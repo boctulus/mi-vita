@@ -27,7 +27,7 @@ define('SECTION_HEADER', 'Descuentos con Mi Vita');
 */
 define('INPUT_VISIBILITY', false);
 define('INPUT_REQUIRED', false);
-define('INPUT_PLACEHOLDER', 'Ingrese su RUT ej: xxxxxxxx-x');
+define('INPUT_PLACEHOLDER', 'RUT, ej: XXXXXXXX-X');
 
 /*
 	Texto del Botón
@@ -49,3 +49,16 @@ define('RUT_IS_INVALID', '<strong>RUT</strong> no es válido.');
 */
 define('OPEN_COUPON_BOX_WHEN_IS_VALID', false);
 
+/*
+	Aplicar automáticamente cupones si están restringidos a ciertos productos
+	y éstos se hayan en el carrito
+*/
+define('AUTOCOUPONS', false);
+
+
+/*
+	Expresión de cupones exclusivos para miembros de Mi Vita
+
+	Ej: MVT20P por "Mi Vita descuento de 20 porciento"
+*/
+define('REG_EX', '/^MVT/i');
