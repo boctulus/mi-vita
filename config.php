@@ -46,4 +46,4 @@ define('RUT_IS_INVALID', '<strong>RUT</strong> no es válido.');
 /*
 	Cuponera
 */
-define('OPEN_COUPON_BOX_WHEN_IS_VALID', true);
+define('OPEN_COUPON_BOX_WHEN_IS_VALID', false);
