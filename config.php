@@ -4,6 +4,9 @@
 	Settings
 */
 
+/*
+	API
+*/
 define('API_KEY', 'test');
 define('SECRET',  'test');
 define('MIVITA_API_DEV',  'https://x163aso6z1.execute-api.us-west-2.amazonaws.com/wsvitadev/validar');
@@ -39,3 +42,8 @@ define('SERVICE_UNAVAILABLE', 'Servicio no disponible');
 define('UNKNOWN_ERROR', 'Error desconocido.');
 define('RUT_IS_REQUIRED', '<strong>RUT</strong> es un campo requerido.');
 define('RUT_IS_INVALID', '<strong>RUT</strong> no es válido.');
+
+/*
+	Cuponera
+*/
+define('OPEN_COUPON_BOX_WHEN_IS_VALID', true);

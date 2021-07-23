@@ -279,9 +279,16 @@ function boctulus_add_jscript_checkout() {
 					if (is_member){
 						set_rut(rut);
 						setMiVitaNotice('<?php echo MEMBERSHIP_VERIFIED ?>', 'info');
-						setTimeout(() => {
-							form1.style.removeProperty("display");
-						}, 500);						
+
+						<?php
+							if (OPEN_COUPON_BOX_WHEN_IS_VALID){
+							?>
+								setTimeout(() => {
+									form1.style.removeProperty("display");
+								}, 500);
+							<?php
+							}
+						?>
 					} else {
 						setMiVitaNotice('<?php echo MEMBERSHIP_NOT_VERIFIED ?>', 'error');
 					}
