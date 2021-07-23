@@ -124,18 +124,18 @@ function boctulus_add_jscript_checkout() {
 			form.classList.add("mivita_box");
 			form.innerHTML = `
 			<h3>
-				Descuentos con Mi Vita
+				<?php echo SECTION_HEADER ?>
 			</h3>
 
 			</br/>
 
 			<div style="margin-top: -15px">
 			<p class="form-row form-row-first my-field-class form-row-wide validate-required" id="user_rut_field" data-priority="" style="">
-				<input type="text" class="input-text" id="u_rut" placeholder="ingrese su RUT" value="">
+				<input type="text" class="input-text" id="u_rut" placeholder="<?php echo INPUT_PLACEHOLDER ?>" value="">
 			</p>
 
 			<p class="form-row form-row-last">
-				<button type="submit" class="button" id="validate_rut">Validar RUT&nbsp;&nbsp;&nbsp;&nbsp;</button>
+				<button type="submit" class="button" id="validate_rut"><?php echo VALUE_BUTTON ?></button>
 			<p/>
 			</div>
 			<div class="clear"></div>
@@ -282,23 +282,23 @@ function boctulus_add_jscript_checkout() {
 			.then(res => {
 				if (res.status != 200){
 					console.log('Error code: ' +res.status);					
-					setMiVitaNotice('Servicio no disponible', 'error');				
+					setMiVitaNotice('<?php echo SERVICE_UNAVAILABLE ?>', 'error');				
 				} else {
 					let is_member = res.data.is_member;
 					//console.log(is_member);	
 					
 					if (is_member){
 						set_rut(rut);
-						setMiVitaNotice('Bienvenido! Membresía verificada', 'info');
+						setMiVitaNotice('<?php echo MEMBERSHIP_VERIFIED ?>', 'info');
 					} else {
-						setMiVitaNotice('Ud. parece no ser miembro.', 'error');
+						setMiVitaNotice('<?php echo MEMBERSHIP_NOT_VERIFIED ?>', 'error');
 					}
 				}
 			})
 			.catch(err => {
 				// handle the error
 				console.log(err);
-				setMiVitaNotice('Error desconocido', 'error');
+				setMiVitaNotice('<?php echo UNKNOWN_ERROR ?>', 'error');
 			});
 
 		}
@@ -322,20 +322,18 @@ add_action( 'woocommerce_after_order_notes', 'add_rut_field' );
 
 function add_rut_field($checkout)
 {
-	define('VISIBLE', true);
-
 	$old_val = $checkout->get_value( 'user_rut' );
 
-    echo '<div id="rut">';
+    echo '<div id="rut" placeholder="'. INPUT_PLACEHOLDER .'">';
 
-	if (!VISIBLE){
+	if (!INPUT_VISIBILITY){
 		echo "<input type=\"hidden\" class=\"input-text\" name=\"user_rut\" id=\"user_rut\" value=\"$old_val\" />";
 	} else {		
     	woocommerce_form_field( 'user_rut', array(
         'type'          => 'text',
         'class'         => array('my-field-class form-row-wide'),
         'label'         => __('RUT'),
-        'placeholder'   => __('ingrese su RUT'),
+        'placeholder'   => __(INPUT_PLACEHOLDER),
 		'required'		=> true
         ), $checkout->get_value( 'user_rut' ));
 	}
@@ -354,7 +352,7 @@ add_action('woocommerce_checkout_process', 'rut_process');
 function rut_process() {
     // Check if set, if its not set add an error.
     if ( ! $_POST['user_rut'] )
-        wc_add_notice( __('<strong>RUT</strong> es un campo requerido.'), 'error' );
+        wc_add_notice( __(RUT_IS_REQUIRED), 'error' );
 }
 
 #Finally, let’s save the new field to order custom fields using the following code:
