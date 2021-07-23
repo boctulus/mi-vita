@@ -38,3 +38,4 @@ define('MEMBERSHIP_NOT_VERIFIED', 'Ud. parece no ser miembro.');
 define('SERVICE_UNAVAILABLE', 'Servicio no disponible');
 define('UNKNOWN_ERROR', 'Error desconocido.');
 define('RUT_IS_REQUIRED', '<strong>RUT</strong> es un campo requerido.');
+define('RUT_IS_INVALID', '<strong>RUT</strong> no es válido.');

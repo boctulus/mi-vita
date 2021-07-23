@@ -260,8 +260,8 @@ function boctulus_add_jscript_checkout() {
 			}
 
 			if (!rut_validator.valida(rut)){
-				console.log("RUT inválido");
-				setMiVitaNotice('<strong>RUT</strong> no es válido.', 'error');
+				//console.log("RUT inválido");
+				setMiVitaNotice('<?php echo RUT_IS_INVALID ?>', 'error');
 				return;
 			}
 
