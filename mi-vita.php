@@ -157,7 +157,7 @@ function boctulus_add_jscript_checkout() {
 						if (product_id == cart_items[j]){
 							setTimeout(() => {
 								apply_coupon(code);
-							}, j * 1000);
+							}, j * 1500);
 						}
 					}
 
