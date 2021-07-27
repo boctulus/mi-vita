@@ -43,6 +43,9 @@ function validate_as_member()
 
 	/*
 		{"status": {"estado": "VIGENTE"}}
+
+        Suele usarse  wp_remote_post() para consumir APIs:
+        https://maswordpress.info/questions/5180/enviar-datos-la-api-de-terceros-con-wp-remote-post-en-wp-log
 	*/
 	$ret = Url::consume_api($url, 'GET');
 
