@@ -87,12 +87,14 @@ add_action( 'rest_api_init', function () {
 	register_rest_route( 'mi-vita/v1', '/mivita_members', array(
 		'methods' => 'GET',
 		'callback' => 'validate_as_member',
+        'permission_callback' => '__return_true'
 	) );
 	
 	#	/wp-json/mi-vita/v1/coupons
 	register_rest_route( 'mi-vita/v1', '/coupons', array(
 		'methods' => 'GET',
 		'callback' => 'get_coupons',
+        'permission_callback' => '__return_true'
 	) );
 } );
 

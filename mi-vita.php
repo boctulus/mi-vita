@@ -34,6 +34,10 @@ if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', 
 	return;
 }
 
+if ( ! is_cart() && ! is_checkout()  ) {
+		return;
+}
+
 function get_rel_path(){
 	$ini = strpos(__DIR__, '/wp-content/');
 	$rel_path = substr(__DIR__, $ini);
